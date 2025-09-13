@@ -20,6 +20,8 @@ class PlayState extends MusicState
 	{
 		SONG_JSON = new SongData("beatTest");
 
+		FlxG.watch.addQuick('SongData', SONG_JSON);
+
 		Conductor.mapBPMChanges(SONG_JSON);
 
 		FlxG.sound.playMusic(Paths.getSongFile(SONG_JSON.id, SONG_JSON.id + ".wav"), 1.0, false);
