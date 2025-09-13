@@ -172,7 +172,7 @@ class PlayState extends MusicState
 				processNote(note);
 
 	public function checkEvents()
-		for (event in this.SongChartData.event)
+		for (event in this.SongChartData.events)
 			if (curBeat == event.beat && curStep == event.step)
 				processEvent(event);
 

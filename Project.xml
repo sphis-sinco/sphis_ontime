@@ -46,6 +46,7 @@
 	<haxelib name="flixel-ui" />
 
 	<haxelib name="json2object" />
+	<haxelib name="thx.semver" />
 
 	<!-- _________________________________ Extra ________________________________ -->
 
