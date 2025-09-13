@@ -32,6 +32,13 @@ class Conductor
 
 	public static var bpmChangeMap:Array<BPMChangeEvent> = [];
 
+	public static var combinedOffset(get, never):Float;
+
+	static function get_combinedOffset():Float
+	{
+		return songPosOffset;
+	}
+
 	public function new(bpm:Float = 100):Void
 	{
 		changeBPM(bpm);

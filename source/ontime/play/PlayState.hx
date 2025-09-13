@@ -19,6 +19,8 @@ class PlayState extends MusicState
 
 	public var SONG_POSITION_DEBUG_TEXT:FlxText;
 
+	public var RESYNC_THRESHOLD:Float = 40;
+
 	override public function new()
 	{
 		SONG_JSON = new SongData("beatTest");
@@ -53,6 +55,14 @@ class PlayState extends MusicState
 
 	public function songProgress(elapsed:Float):Void
 	{
+		var correctSync:Float = Math.min(FlxG.sound.music.length, Math.max(0, Conductor.songPosition - Conductor.combinedOffset));
+
+		if (!(Conductor.songPosition > 0 && !SONG_STARTED) && (Math.abs(FlxG.sound.music.time - correctSync) > RESYNC_THRESHOLD))
+		{
+			trace("SONG NEEDS RESYNC (" + FlxG.sound.music.time + "-" + correctSync + ")");
+			resyncSong();
+		}
+
 		if (!(SONG_ENDED || SONG_PAUSED))
 			Conductor.songPosition += elapsed * 1000;
 
@@ -81,6 +91,22 @@ class PlayState extends MusicState
 		SONG_POSITION_DEBUG_TEXT.text = "Song Pos (" + TIME_LEFT_MINUTES + ":" + (TIME_LEFT_SECONDS < 10 ? "0" : "") + TIME_LEFT_SECONDS + ")";
 	}
 
+	function resyncSong()
+	{
+		// Skip this if the music is paused
+		if (!(FlxG.sound.music?.playing ?? false))
+			return;
+
+		var timeToPlayAt:Float = Math.min(FlxG.sound.music.length,
+			Math.max(Math.min(Conductor.combinedOffset, 0), Conductor.songPosition) - Conductor.combinedOffset);
+		trace('Resyncing track to ${timeToPlayAt}');
+
+		FlxG.sound.music.pause();
+
+		FlxG.sound.music.time = timeToPlayAt;
+		FlxG.sound.music.play(false, timeToPlayAt);
+	}
+
 	override function onFocusLost()
 	{
 		super.onFocusLost();
@@ -100,7 +126,7 @@ class PlayState extends MusicState
 		}
 	}
 
-	public function endSong():Void
+	function endSong():Void
 	{
 		SONG_ENDED = true;
 	}
