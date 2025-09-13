@@ -1,5 +1,10 @@
 package ontime;
 
+import lime.utils.Assets;
+#if sys
+import sys.io.File;
+#end
+
 class Paths
 {
 	public static function getGamePath(path:String)
@@ -22,5 +27,14 @@ class Paths
 	public static function getSongFile(song:String, file:String)
 	{
 		return getSongPath(song, file);
+	}
+
+	public static function getText(path:String):String
+	{
+		#if sys
+		return File.getContent(path);
+		#end
+
+		return Assets.getText(path);
 	}
 }

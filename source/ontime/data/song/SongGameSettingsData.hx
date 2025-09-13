@@ -2,8 +2,8 @@ package ontime.data.song;
 
 class SongGameSettingsData
 {
-	public var bpm:Float;
-	public var speed:Float;
+	public var bpm:Null<Float>;
+	public var speed:Null<Float>;
 
 	public function toString():String
 	{
