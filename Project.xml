@@ -37,7 +37,7 @@
 	<set name="BUILD_DIR" value="${BUILD_DIR}-final" if="final"/>
 
 	<source path="source" />
-	<assets path="game" />
+	<assets path="game" exclude="*.fla" />
 
 	<!-- _______________________________ Libraries ______________________________ -->
 
