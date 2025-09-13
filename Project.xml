@@ -30,6 +30,8 @@
 	<!-- _____________________________ Path Settings ____________________________ -->
 
 	<set name="BUILD_DIR" value="export" />
+	<set name="BUILD_DIR" value="${BUILD_DIR}/final" if="final"/>
+
 	<set name="BUILD_DIR" value="${BUILD_DIR}/release" unless="debug"/>
 	<set name="BUILD_DIR" value="${BUILD_DIR}/debug" if="debug"/>
 
