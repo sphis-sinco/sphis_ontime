@@ -1,4 +1,4 @@
-package;
+package ontime;
 
 import flixel.FlxState;
 
