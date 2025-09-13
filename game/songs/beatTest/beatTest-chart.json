@@ -1,7 +1,7 @@
 {
         "events": [
                 {
-                        "step": 0,
+                        "step": 1,
                         "beat": 0,
 
                         "data": "dummyEvent"
@@ -9,19 +9,19 @@
         ],
         "chart": [
                 {
-                        "step": 0,
+                        "step": 4,
                         "beat": 1,
 
                         "side": -1
                 },
                 {
-                        "step": 0,
+                        "step": 8,
                         "beat": 2,
 
                         "side": 0
                 },
                 {
-                        "step": 0,
+                        "step": 12,
                         "beat": 3,
 
                         "side": 3
