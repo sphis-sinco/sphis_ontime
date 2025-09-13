@@ -57,16 +57,9 @@ class Conductor
 	{
 		bpmChangeMap = [];
 
-		// todo for if a song needs a bpm change
-
-		var curBPM:Float = song.gameSettings.bpm;
-
-		var event:BPMChangeEvent = {
-			stepTime: 0,
-			songTime: 0,
-			bpm: curBPM
+		for (event in song.gameSettings.bpmChangeMap)
+		{
+			bpmChangeMap.push(event);
 		}
-
-		bpmChangeMap.push(event);
 	}
 }

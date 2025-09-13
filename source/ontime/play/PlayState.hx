@@ -21,7 +21,6 @@ class PlayState extends MusicState
 		SONG_JSON = new SongData("beatTest");
 
 		Conductor.mapBPMChanges(SONG_JSON);
-		Conductor.changeBPM(SONG_JSON.gameSettings.bpm);
 
 		FlxG.sound.playMusic(Paths.getSongFile(SONG_JSON.id, SONG_JSON.id + ".wav"), 1.0, false);
 		FlxG.sound.music.onComplete = endSong;

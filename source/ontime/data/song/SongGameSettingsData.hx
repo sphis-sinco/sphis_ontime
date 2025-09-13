@@ -1,12 +1,32 @@
 package ontime.data.song;
 
+import ontime.music.Conductor;
+
 class SongGameSettingsData
 {
-	public var bpm:Null<Float>;
+	@:optional
+	@:isVar
+	public var bpm(get, never):Null<Float>;
+
+	function get_bpm():Null<Float>
+	{
+		if (bpmChangeMap != null)
+			return bpmChangeMap[0].bpm;
+
+		return bpm;
+	}
+
+	public var bpmChangeMap:Array<BPMChangeEvent>;
 	public var speed:Null<Float>;
 
 	public function toString():String
 	{
-		return "SongGameSettingsData(bpm: " + this.bpm + ", speed: " + this.speed + ")";
+		return "SongGameSettingsData(bpm: "
+			+ this.bpm
+			+ ", speed: "
+			+ this.speed
+			+ ", bpmChangeMap.length:"
+			+ bpmChangeMap.length
+			+ ")";
 	}
 }

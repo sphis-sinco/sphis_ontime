@@ -55,8 +55,21 @@ class SongData
 		this.credits = json.credits;
 
 		this.gameSettings = json.gameSettings;
-		this.gameSettings.bpm ??= SongDataConstants.GAME_SETTINGS_DEFAULT_BPM;
+		if (json.version == 2)
+		{
+			this.gameSettings.bpmChangeMap = [
+				{
+					stepTime: 0,
+					songTime: 0,
+					bpm: json.gameSettings.bpm
+				}
+			];
+		}
+		this.gameSettings.bpmChangeMap ??= SongDataConstants.GAME_SETTINGS_DEFAULT_BPM_CHANGE_MAP;
 		this.gameSettings.speed ??= SongDataConstants.GAME_SETTINGS_DEFAULT_SPEED;
+
+		if (this.version < SongDataConstants.SONG_DATA_VERSION)
+			this.version = SongDataConstants.SONG_DATA_VERSION;
 	}
 
 	public function toString():String
