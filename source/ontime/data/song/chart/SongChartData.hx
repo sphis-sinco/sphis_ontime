@@ -17,8 +17,8 @@ class SongChartData
 	public function new(songId:String):Void
 	{
 		var parser = new JsonParser<SongChartData>();
-		final jsonPath = Paths.getSongFile(songId, songId + "-metadata.json");
-		var json = parser.fromJson(Paths.getText(jsonPath), songId + "-metadata.json");
+		final jsonPath = Paths.getSongFile(songId, songId + "-chart.json");
+		var json = parser.fromJson(Paths.getText(jsonPath), songId + "-chart.json");
 
 		for (e in parser.errors)
 		{
