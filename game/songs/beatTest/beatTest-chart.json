@@ -12,19 +12,19 @@
                         "step": 4,
                         "beat": 1,
 
-                        "side": -1
+                        "note": 0
                 },
                 {
                         "step": 8,
                         "beat": 2,
 
-                        "side": 0
+                        "note": 1
                 },
                 {
                         "step": 12,
                         "beat": 3,
 
-                        "side": 1
+                        "note": 2
                 }
         ]
 }
