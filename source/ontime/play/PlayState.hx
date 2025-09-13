@@ -58,12 +58,16 @@ class PlayState extends MusicState
 		}
 
 		var MUSIC_LENGTH_SECONDS:Float = FlxG.sound.music.length / 1000;
+		var MUSIC_LENGTH_MINUTES:Float = MUSIC_LENGTH_SECONDS / 60;
 		var TIME_LEFT_SECONDS:Float = FlxMath.roundDecimal(MUSIC_LENGTH_SECONDS - Conductor.songPosition / 1000, 0);
+		var TIME_LEFT_MINUTES:Float = FlxMath.roundDecimal(MUSIC_LENGTH_MINUTES - ((Conductor.songPosition / 1000) / 60), 0);
 
 		if (TIME_LEFT_SECONDS > MUSIC_LENGTH_SECONDS)
 			TIME_LEFT_SECONDS = MUSIC_LENGTH_SECONDS; // countdown time doesnt add to the length
+		if (TIME_LEFT_MINUTES > MUSIC_LENGTH_MINUTES)
+			TIME_LEFT_MINUTES = MUSIC_LENGTH_MINUTES;
 
-		SONG_POSITION_DEBUG_TEXT.text = "Song Pos: " + TIME_LEFT_SECONDS;
+		SONG_POSITION_DEBUG_TEXT.text = "Song Pos (" + TIME_LEFT_MINUTES + ":" + (TIME_LEFT_SECONDS < 10 ? "0" : "") + TIME_LEFT_SECONDS + ")";
 	}
 
 	public function endSong():Void
