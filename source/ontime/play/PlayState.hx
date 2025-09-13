@@ -3,6 +3,7 @@ package ontime.play;
 import flixel.FlxG;
 import flixel.math.FlxMath;
 import flixel.text.FlxText;
+import haxe.macro.Compiler;
 import ontime.data.song.chart.SongChartData;
 import ontime.data.song.chart.SongChartEventData;
 import ontime.data.song.chart.SongChartNoteData;
@@ -174,6 +175,8 @@ class PlayState extends MusicState
 			}
 			else
 			{
+				if (Compiler.getDefine('failedNoteMsg') != "1")
+					return;
 				trace("Failed Note(beat: " + curBeat + ", step: " + curStep + "): " + "Note(beat: " + note.beat + ",step: " + note.step + ")");
 			}
 
@@ -185,6 +188,8 @@ class PlayState extends MusicState
 			}
 			else
 			{
+				if (Compiler.getDefine('failedEventMsg') != "1")
+					return;
 				trace("Failed Event(beat: "
 					+ curBeat
 					+ ", step: "
