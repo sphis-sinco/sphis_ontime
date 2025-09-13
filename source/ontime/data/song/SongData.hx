@@ -8,7 +8,7 @@ class SongData
 		If this field isn't found it'll
 		be default to the latest version.
 	**/
-	@:default(SongDataConstants.VERSION)
+	@:default(SongDataConstants.SONG_DATA_VERSION)
 	public var version:Int;
 
 	/**
@@ -36,5 +36,5 @@ class SongData
 		If it isn't found or is null then the game will not run the song. 
 	**/
 	@:default(null)
-	public var gameSettings:GameSettingsData;
+	public var gameSettings:SongGameSettingsData;
 }
