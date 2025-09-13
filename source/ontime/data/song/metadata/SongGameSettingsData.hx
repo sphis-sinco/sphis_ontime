@@ -6,7 +6,7 @@ class SongGameSettingsData
 {
 	@:optional
 	@:isVar
-	public var bpm(get, never):Null<Float>;
+	public var bpm(get, default):Null<Float>;
 
 	function get_bpm():Null<Float>
 	{

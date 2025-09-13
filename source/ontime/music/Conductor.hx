@@ -1,6 +1,6 @@
 package ontime.music;
 
-import ontime.data.song.SongData;
+import ontime.data.song.metadata.SongData;
 
 typedef BPMChangeEvent =
 {

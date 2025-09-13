@@ -7,8 +7,6 @@ class SongData
 	@:jignored
 	public var id:String;
 
-	public var version:Null<Int>;
-
 	@:optional
 	@:default("Unknown")
 	public var name:String;
@@ -48,40 +46,17 @@ class SongData
 
 		this.id = songId;
 
-		this.version = json.version;
-		this.version ??= SongDataConstants.SONG_DATA_VERSION;
-
 		this.name = json.name;
 		this.credits = json.credits;
 
 		this.gameSettings = json.gameSettings;
-		if (json.version == 2)
-		{
-			this.gameSettings.bpmChangeMap = [
-				{
-					stepTime: 0,
-					songTime: 0,
-					bpm: json.gameSettings.bpm
-				}
-			];
-		}
 		this.gameSettings.bpmChangeMap ??= SongDataConstants.GAME_SETTINGS_DEFAULT_BPM_CHANGE_MAP;
+		this.gameSettings.bpm ??= this.gameSettings.bpmChangeMap[0].bpm ?? SongDataConstants.GAME_SETTINGS_DEFAULT_BPM;
 		this.gameSettings.speed ??= SongDataConstants.GAME_SETTINGS_DEFAULT_SPEED;
-
-		if (this.version < SongDataConstants.SONG_DATA_VERSION)
-			this.version = SongDataConstants.SONG_DATA_VERSION;
 	}
 
 	public function toString():String
 	{
-		return "SongData(id: "
-			+ this.id
-			+ ", name: "
-			+ this.name
-			+ ", version: "
-			+ this.version
-			+ ", gameSettings: "
-			+ this.gameSettings
-			+ ")";
+		return "SongData(id: " + this.id + ", name: " + this.name + ", gameSettings: " + this.gameSettings + ")";
 	}
 }
