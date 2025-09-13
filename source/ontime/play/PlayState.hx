@@ -135,6 +135,8 @@ class PlayState extends MusicState
 	function endSong():Void
 	{
 		SONG_ENDED = true;
+
+		trace("Song completed (curBeat:" + this.curBeat + ", curStep:" + this.curStep + ")");
 	}
 
 	override public function stepHit():Void
