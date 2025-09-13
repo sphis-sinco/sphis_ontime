@@ -1,5 +1,6 @@
 package ontime.data.song.metadata;
 
+#if !macro
 import json2object.JsonParser;
 
 class SongMetadata
@@ -60,3 +61,4 @@ class SongMetadata
 		return "SongMetadata(id: " + this.id + ", name: " + this.name + ", gameSettings: " + this.gameSettings + ")";
 	}
 }
+#end

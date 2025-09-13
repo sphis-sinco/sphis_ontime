@@ -1,5 +1,6 @@
 package ontime.data.song.chart;
 
+#if !macro
 import json2object.JsonParser;
 
 class SongChartData
@@ -51,3 +52,4 @@ class SongChartData
 		return "SongChartData(id: " + this.id + ", chart.length: " + this.chart.length + ", events.length" + this.events.length + ")";
 	}
 }
+#end

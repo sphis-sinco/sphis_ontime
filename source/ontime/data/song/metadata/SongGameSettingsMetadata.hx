@@ -1,5 +1,6 @@
 package ontime.data.song.metadata;
 
+#if !macro
 import ontime.music.Conductor;
 
 class SongGameSettingsMetadata
@@ -30,3 +31,4 @@ class SongGameSettingsMetadata
 			+ ")";
 	}
 }
+#end

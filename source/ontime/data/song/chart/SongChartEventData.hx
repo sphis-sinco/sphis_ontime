@@ -1,5 +1,6 @@
 package ontime.data.song.chart;
 
+#if !macro
 class SongChartEventData
 {
 	public var step:Int;
@@ -14,3 +15,4 @@ class SongChartEventData
 		return "SongChartEventData(step: " + this.step + ", beat: " + this.beat + ", data: " + this.data + ")";
 	}
 }
+#end

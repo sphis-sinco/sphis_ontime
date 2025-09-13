@@ -1,5 +1,6 @@
 package ontime.data.song.chart;
 
+#if !macro
 import flixel.math.FlxMath;
 
 class SongChartNoteData
@@ -14,3 +15,4 @@ class SongChartNoteData
 		return "SongChartNoteData(step: " + this.step + ", beat: " + this.beat + ", side: " + this.side + ")";
 	}
 }
+#end
