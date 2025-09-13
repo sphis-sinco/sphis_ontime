@@ -172,6 +172,7 @@ class PlayState extends MusicState
 			if (curBeat == note.beat && curStep == note.step)
 			{
 				processNote(note);
+				this.SongChartData.chart.remove(note);
 			}
 			else
 			{
@@ -185,6 +186,7 @@ class PlayState extends MusicState
 			if (curBeat == event.beat && curStep == event.step)
 			{
 				processEvent(event);
+				this.SongChartData.events.remove(event);
 			}
 			else
 			{
