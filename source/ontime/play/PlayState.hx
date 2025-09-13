@@ -55,13 +55,12 @@ class PlayState extends MusicState
 
 	public function songProgress(elapsed:Float):Void
 	{
-		var correctSync:Float = Math.min(FlxG.sound.music.length, Math.max(0, Conductor.songPosition - Conductor.combinedOffset));
-
-		if (!(Conductor.songPosition > 0 && !SONG_STARTED) && (Math.abs(FlxG.sound.music.time - correctSync) > RESYNC_THRESHOLD))
+		if (SONG_PAUSED && (FlxG.sound.music?.playing ?? false))
 		{
-			trace("SONG NEEDS RESYNC (" + FlxG.sound.music.time + "-" + correctSync + ")");
-			resyncSong();
+			FlxG.sound.music.pause();
 		}
+
+		resyncSong();
 
 		if (!(SONG_ENDED || SONG_PAUSED))
 			Conductor.songPosition += elapsed * 1000;
@@ -93,6 +92,15 @@ class PlayState extends MusicState
 
 	function resyncSong()
 	{
+		var correctSync:Float = Math.min(FlxG.sound.music.length, Math.max(0, Conductor.songPosition - Conductor.combinedOffset));
+
+		if (!(!(Conductor.songPosition > 0 && !SONG_STARTED)
+			&& (Math.abs(FlxG.sound.music.time - correctSync) > RESYNC_THRESHOLD)
+			&& !(SONG_ENDED)))
+			return;
+		else
+			trace("Track requires resync (curTime: " + FlxG.sound.music.time + ", correctSync: " + correctSync + ")");
+
 		// Skip this if the music is paused
 		if (!(FlxG.sound.music?.playing ?? false))
 			return;
@@ -112,8 +120,6 @@ class PlayState extends MusicState
 		super.onFocusLost();
 
 		SONG_PAUSED = true;
-
-		FlxG.sound.music.pause();
 	}
 
 	override function onFocus()
