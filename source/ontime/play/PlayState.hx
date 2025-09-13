@@ -75,10 +75,7 @@ class PlayState extends MusicState
 
 	public function endSong():Void
 	{
-		FlxTimer.wait(0, () ->
-		{
-			SONG_ENDED = true;
-		});
+		SONG_ENDED = true;
 	}
 
 	override public function stepHit():Void

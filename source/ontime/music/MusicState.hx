@@ -3,7 +3,6 @@ package ontime.music;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.addons.ui.FlxUIState;
 import ontime.music.Conductor;
-import ontime.music.Conductor;
 
 class MusicState extends FlxUIState
 {
@@ -82,5 +81,15 @@ class MusicState extends FlxUIState
 	public function beatHit():Void
 	{
 		// do literally nothing dumbass
+	}
+
+	override function onFocus():Void
+	{
+		super.onFocus();
+	}
+
+	override function onFocusLost():Void
+	{
+		super.onFocusLost();
 	}
 }
