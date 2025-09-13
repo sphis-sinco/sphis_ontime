@@ -1,5 +1,7 @@
 package ontime.data.song;
 
+import json2object.JsonParser;
+
 class SongData
 {
 	/**
@@ -8,7 +10,6 @@ class SongData
 		If this field isn't found it'll
 		be default to the latest version.
 	**/
-	@:default(SongDataConstants.SONG_DATA_VERSION)
 	public var version:Int;
 
 	/**
@@ -37,4 +38,25 @@ class SongData
 	**/
 	@:default(null)
 	public var gameSettings:SongGameSettingsData;
+
+	public function new(songId:String)
+	{
+		var parser = new JsonParser<SongData>();
+		var json = parser.fromJson(Paths.getSongFile(songId, songId + "-metadata.json"));
+
+		if (json == null)
+		{
+			throw "Could not parse metadata for song ID: " + songId;
+		}
+
+		this.version = json.version;
+		this.version ??= SongDataConstants.SONG_DATA_VERSION;
+
+		this.name = json.name;
+		this.credits = json.credits;
+
+		this.gameSettings = json.gameSettings;
+		this.gameSettings.bpm ??= SongDataConstants.GAME_SETTINGS_DEFAULT_BPM;
+		this.gameSettings.speed ??= SongDataConstants.GAME_SETTINGS_DEFAULT_SPEED;
+	}
 }
