@@ -40,6 +40,8 @@
 
 	<haxelib name="flixel" />
 
+	<haxelib name="json2object" />
+
 	<!-- _________________________________ Extra ________________________________ -->
 
 	<!--Place custom nodes like icons here-->
