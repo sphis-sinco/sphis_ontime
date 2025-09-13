@@ -1,6 +1,6 @@
 package ontime.music;
 
-import ontime.data.song.metadata.SongData;
+import ontime.data.song.metadata.SongMetadata;
 
 typedef BPMChangeEvent =
 {
@@ -60,7 +60,7 @@ class Conductor
 	 * This just sets `bpmChangeMap` so that all the bpm events are tracked
 	 * @param song the song you are getting the bpmChangeMap from
 	 */
-	public static function mapBPMChanges(song:SongData):Void
+	public static function mapBPMChanges(song:SongMetadata):Void
 	{
 		bpmChangeMap = [];
 

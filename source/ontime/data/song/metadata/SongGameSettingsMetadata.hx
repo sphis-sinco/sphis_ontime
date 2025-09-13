@@ -2,7 +2,7 @@ package ontime.data.song.metadata;
 
 import ontime.music.Conductor;
 
-class SongGameSettingsData
+class SongGameSettingsMetadata
 {
 	@:optional
 	@:isVar
@@ -21,7 +21,7 @@ class SongGameSettingsData
 
 	public function toString():String
 	{
-		return "SongGameSettingsData(bpm: "
+		return "SongGameSettingsMetadata(bpm: "
 			+ this.bpm
 			+ ", speed: "
 			+ this.speed

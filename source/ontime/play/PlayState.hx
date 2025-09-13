@@ -3,7 +3,7 @@ package ontime.play;
 import flixel.FlxG;
 import flixel.math.FlxMath;
 import flixel.text.FlxText;
-import ontime.data.song.metadata.SongData;
+import ontime.data.song.metadata.SongMetadata;
 import ontime.music.Conductor;
 import ontime.music.MusicState;
 
@@ -19,10 +19,10 @@ class PlayState extends MusicState
 
 	override public function new(?songID:String)
 	{
-		var SONG_METADATA:SongData;
-		SONG_METADATA = new SongData(songID ?? "beatTest");
+		var SONG_METADATA:SongMetadata;
+		SONG_METADATA = new SongMetadata(songID ?? "beatTest");
 
-		FlxG.watch.addQuick("SongData", SONG_METADATA);
+		FlxG.watch.addQuick("SongMetadata", SONG_METADATA);
 
 		Conductor.mapBPMChanges(SONG_METADATA);
 

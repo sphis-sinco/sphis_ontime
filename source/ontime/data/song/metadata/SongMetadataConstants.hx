@@ -2,7 +2,7 @@ package ontime.data.song.metadata;
 
 import ontime.music.Conductor;
 
-class SongDataConstants
+class SongMetadataConstants
 {
 	public static var GAME_SETTINGS_DEFAULT_BPM(default, never):Int = 150;
 

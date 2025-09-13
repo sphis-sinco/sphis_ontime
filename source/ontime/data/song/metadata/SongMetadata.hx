@@ -2,7 +2,7 @@ package ontime.data.song.metadata;
 
 import json2object.JsonParser;
 
-class SongData
+class SongMetadata
 {
 	@:jignored
 	public var id:String;
@@ -16,11 +16,11 @@ class SongData
 	public var credits:Array<String>;
 
 	@:default(null)
-	public var gameSettings:SongGameSettingsData;
+	public var gameSettings:SongGameSettingsMetadata;
 
 	public function new(songId:String):Void
 	{
-		var parser = new JsonParser<SongData>();
+		var parser = new JsonParser<SongMetadata>();
 		final jsonPath = Paths.getSongFile(songId, songId + "-metadata.json");
 		var json = parser.fromJson(Paths.getText(jsonPath), songId + "-metadata.json");
 
@@ -29,13 +29,13 @@ class SongData
 			switch (e)
 			{
 				case IncorrectType(variable, expected, pos):
-					trace("SongData incorrect-type parsing error (variable: " + variable + ", expected: " + expected + ", pos: " + pos + ")");
+					trace("SongMetadata incorrect-type parsing error (variable: " + variable + ", expected: " + expected + ", pos: " + pos + ")");
 				case UninitializedVariable(variable, pos):
-					trace("SongData uninitalized-variable parsing error (variable: " + variable + ", pos: " + pos + ")");
+					trace("SongMetadata uninitalized-variable parsing error (variable: " + variable + ", pos: " + pos + ")");
 				case UnknownVariable(variable, pos):
-					trace("SongData unknown-variable parsing error (variable: " + variable + ", pos: " + pos + ")");
+					trace("SongMetadata unknown-variable parsing error (variable: " + variable + ", pos: " + pos + ")");
 				default:
-					trace("SongData unknown parsing error: " + e);
+					trace("SongMetadata unknown parsing error: " + e);
 			}
 		}
 
@@ -50,13 +50,13 @@ class SongData
 		this.credits = json.credits;
 
 		this.gameSettings = json.gameSettings;
-		this.gameSettings.bpmChangeMap ??= SongDataConstants.GAME_SETTINGS_DEFAULT_BPM_CHANGE_MAP;
-		this.gameSettings.bpm ??= this.gameSettings.bpmChangeMap[0].bpm ?? SongDataConstants.GAME_SETTINGS_DEFAULT_BPM;
-		this.gameSettings.speed ??= SongDataConstants.GAME_SETTINGS_DEFAULT_SPEED;
+		this.gameSettings.bpmChangeMap ??= SongMetadataConstants.GAME_SETTINGS_DEFAULT_BPM_CHANGE_MAP;
+		this.gameSettings.bpm ??= this.gameSettings.bpmChangeMap[0].bpm ?? SongMetadataConstants.GAME_SETTINGS_DEFAULT_BPM;
+		this.gameSettings.speed ??= SongMetadataConstants.GAME_SETTINGS_DEFAULT_SPEED;
 	}
 
 	public function toString():String
 	{
-		return "SongData(id: " + this.id + ", name: " + this.name + ", gameSettings: " + this.gameSettings + ")";
+		return "SongMetadata(id: " + this.id + ", name: " + this.name + ", gameSettings: " + this.gameSettings + ")";
 	}
 }
