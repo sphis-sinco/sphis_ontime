@@ -3,7 +3,6 @@ package ontime.play;
 import flixel.FlxG;
 import flixel.math.FlxMath;
 import flixel.text.FlxText;
-import flixel.util.FlxTimer;
 import ontime.data.song.SongData;
 import ontime.music.Conductor;
 import ontime.music.MusicState;
@@ -14,6 +13,9 @@ class PlayState extends MusicState
 
 	public var SONG_STARTED:Bool = false;
 	public var SONG_ENDED:Bool = false;
+
+	public var SONG_PAUSED:Bool = false;
+	public var SONG_CAN_UNPAUSE:Bool = false;
 
 	public var SONG_POSITION_DEBUG_TEXT:FlxText;
 
@@ -51,12 +53,18 @@ class PlayState extends MusicState
 
 	public function songProgress(elapsed:Float):Void
 	{
-		if (!SONG_ENDED)
+		if (!(SONG_ENDED || SONG_PAUSED))
 			Conductor.songPosition += elapsed * 1000;
 
-		if (Conductor.songPosition > 0 && !SONG_STARTED)
+		if ((Conductor.songPosition > 0 && !SONG_STARTED) || (SONG_PAUSED && SONG_CAN_UNPAUSE))
 		{
-			SONG_STARTED = true;
+			if (Conductor.songPosition > 0 && !SONG_STARTED)
+				SONG_STARTED = true;
+			if (SONG_PAUSED && SONG_CAN_UNPAUSE)
+			{
+				SONG_PAUSED = false;
+				SONG_CAN_UNPAUSE = false;
+			}
 			FlxG.sound.music.resume();
 		}
 
@@ -71,6 +79,25 @@ class PlayState extends MusicState
 			TIME_LEFT_MINUTES = MUSIC_LENGTH_MINUTES;
 
 		SONG_POSITION_DEBUG_TEXT.text = "Song Pos (" + TIME_LEFT_MINUTES + ":" + (TIME_LEFT_SECONDS < 10 ? "0" : "") + TIME_LEFT_SECONDS + ")";
+	}
+
+	override function onFocusLost()
+	{
+		super.onFocusLost();
+
+		SONG_PAUSED = true;
+
+		FlxG.sound.music.pause();
+	}
+
+	override function onFocus()
+	{
+		super.onFocus();
+
+		if (SONG_PAUSED)
+		{
+			SONG_CAN_UNPAUSE = true;
+		}
 	}
 
 	public function endSong():Void
