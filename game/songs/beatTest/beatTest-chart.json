@@ -1,5 +1,12 @@
 {
-        "events": [],
+        "events": [
+                {
+                        "step": 0,
+                        "beat": 0,
+
+                        "data": "dummyEvent"
+                }
+        ],
         "chart": [
                 {
                         "step": 0,
