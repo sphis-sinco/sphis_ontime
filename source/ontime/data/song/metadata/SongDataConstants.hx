@@ -1,4 +1,4 @@
-package ontime.data.song;
+package ontime.data.song.metadata;
 
 import ontime.music.Conductor;
 

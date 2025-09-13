@@ -3,45 +3,42 @@ package ontime.play;
 import flixel.FlxG;
 import flixel.math.FlxMath;
 import flixel.text.FlxText;
-import ontime.data.song.SongData;
+import ontime.data.song.metadata.SongData;
 import ontime.music.Conductor;
 import ontime.music.MusicState;
 
 class PlayState extends MusicState
 {
-	public var SONG_JSON:SongData;
+	public var SongStarted:Bool = false;
+	public var SongEnded:Bool = false;
 
-	public var SONG_STARTED:Bool = false;
-	public var SONG_ENDED:Bool = false;
+	public var SongPaused:Bool = false;
+	public var SongCanUnpause:Bool = false;
 
-	public var SONG_PAUSED:Bool = false;
-	public var SONG_CAN_UNPAUSE:Bool = false;
+	public var SongPositionDebugText:FlxText;
 
-	public var SONG_POSITION_DEBUG_TEXT:FlxText;
-
-	public var RESYNC_THRESHOLD:Float = 40;
-
-	override public function new()
+	override public function new(?songID:String)
 	{
-		SONG_JSON = new SongData("beatTest");
+		var SONG_METADATA:SongData;
+		SONG_METADATA = new SongData(songID ?? "beatTest");
 
-		FlxG.watch.addQuick('SongData', SONG_JSON);
+		FlxG.watch.addQuick("SongData", SONG_METADATA);
 
-		Conductor.mapBPMChanges(SONG_JSON);
+		Conductor.mapBPMChanges(SONG_METADATA);
 
-		FlxG.sound.playMusic(Paths.getSongFile(SONG_JSON.id, SONG_JSON.id + ".wav"), 1.0, false);
+		FlxG.sound.playMusic(Paths.getSongFile(SONG_METADATA.id, SONG_METADATA.id + ".wav"), 1.0, false);
 		FlxG.sound.music.onComplete = endSong;
 		FlxG.sound.pause();
 
 		Conductor.songPosition = 0; // -5000 for a countdown
 
-		SONG_POSITION_DEBUG_TEXT = new FlxText(0, 0, 0, "Hello", 16);
+		SongPositionDebugText = new FlxText(0, 0, 0, "Hello", 16);
 		super();
 	}
 
 	override public function create():Void
 	{
-		add(SONG_POSITION_DEBUG_TEXT);
+		add(SongPositionDebugText);
 
 		super.create();
 	}
@@ -55,24 +52,24 @@ class PlayState extends MusicState
 
 	public function songProgress(elapsed:Float):Void
 	{
-		if (SONG_PAUSED && (FlxG.sound.music?.playing ?? false))
+		if (SongPaused && (FlxG.sound.music?.playing ?? false))
 		{
 			FlxG.sound.music.pause();
 		}
 
 		resyncSong();
 
-		if (!(SONG_ENDED || SONG_PAUSED))
+		if (!(SongEnded || SongPaused))
 			Conductor.songPosition += elapsed * 1000;
 
-		if ((Conductor.songPosition > 0 && !SONG_STARTED) || (SONG_PAUSED && SONG_CAN_UNPAUSE))
+		if ((Conductor.songPosition > 0 && !SongStarted) || (SongPaused && SongCanUnpause))
 		{
-			if (Conductor.songPosition > 0 && !SONG_STARTED)
-				SONG_STARTED = true;
-			if (SONG_PAUSED && SONG_CAN_UNPAUSE)
+			if (Conductor.songPosition > 0 && !SongStarted)
+				SongStarted = true;
+			if (SongPaused && SongCanUnpause)
 			{
-				SONG_PAUSED = false;
-				SONG_CAN_UNPAUSE = false;
+				SongPaused = false;
+				SongCanUnpause = false;
 			}
 			FlxG.sound.music.resume();
 		}
@@ -87,16 +84,23 @@ class PlayState extends MusicState
 		if (TIME_LEFT_MINUTES > MUSIC_LENGTH_MINUTES)
 			TIME_LEFT_MINUTES = MUSIC_LENGTH_MINUTES;
 
-		SONG_POSITION_DEBUG_TEXT.text = "Song Pos (" + TIME_LEFT_MINUTES + ":" + (TIME_LEFT_SECONDS < 10 ? "0" : "") + TIME_LEFT_SECONDS + ")";
+		SongPositionDebugText.text = "Song Pos (" + TIME_LEFT_MINUTES + ":" + (TIME_LEFT_SECONDS < 10 ? "0" : "") + TIME_LEFT_SECONDS + ")";
+	}
+
+	public var RESYNC_THRESHOLD(get, never):Float;
+
+	function get_RESYNC_THRESHOLD():Float
+	{
+		return 40.0;
 	}
 
 	function resyncSong()
 	{
 		var correctSync:Float = Math.min(FlxG.sound.music.length, Math.max(0, Conductor.songPosition - Conductor.combinedOffset));
 
-		if (!(!(Conductor.songPosition > 0 && !SONG_STARTED)
+		if (!(!(Conductor.songPosition > 0 && !SongStarted)
 			&& (Math.abs(FlxG.sound.music.time - correctSync) > RESYNC_THRESHOLD)
-			&& !(SONG_ENDED)))
+			&& !(SongEnded)))
 			return;
 		else
 			trace("Track requires resync (curTime: " + FlxG.sound.music.time + ", correctSync: " + correctSync + ")");
@@ -107,7 +111,7 @@ class PlayState extends MusicState
 
 		var timeToPlayAt:Float = Math.min(FlxG.sound.music.length,
 			Math.max(Math.min(Conductor.combinedOffset, 0), Conductor.songPosition) - Conductor.combinedOffset);
-		trace('Resyncing track to ${timeToPlayAt}');
+		trace("Resyncing track to " + timeToPlayAt);
 
 		FlxG.sound.music.pause();
 
@@ -119,22 +123,22 @@ class PlayState extends MusicState
 	{
 		super.onFocusLost();
 
-		SONG_PAUSED = true;
+		SongPaused = true;
 	}
 
 	override function onFocus()
 	{
 		super.onFocus();
 
-		if (SONG_PAUSED)
+		if (SongPaused)
 		{
-			SONG_CAN_UNPAUSE = true;
+			SongCanUnpause = true;
 		}
 	}
 
 	function endSong():Void
 	{
-		SONG_ENDED = true;
+		SongEnded = true;
 
 		trace("Song completed (curBeat:" + this.curBeat + ", curStep:" + this.curStep + ")");
 	}
