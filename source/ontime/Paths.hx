@@ -2,7 +2,7 @@ package ontime;
 
 class Paths
 {
-	public function getGamePath(path:String)
+	public static function getGamePath(path:String)
 	{
 		var return_path_prefix:String = "";
 
@@ -14,12 +14,12 @@ class Paths
 		return return_path_prefix + path;
 	}
 
-	public function getSongPath(song:String, ?file:String)
+	public static function getSongPath(song:String, ?file:String)
 	{
 		return getGamePath("songs/" + song + (file != null ? "/" + file : ""));
 	}
 
-	public function getSongFile(song:String, file:String)
+	public static function getSongFile(song:String, file:String)
 	{
 		return getSongPath(song, file);
 	}
