@@ -25,11 +25,11 @@ class SongChartData
 			switch (e)
 			{
 				case IncorrectType(variable, expected, pos):
-					trace("SongChartData incorrect-type parsing error (variable: " + variable + ", expected: " + expected + ", pos: " + pos + ")");
+					trace("IncorrectType(" + variable + ", expected: " + expected + ", pos: " + pos + ")");
 				case UninitializedVariable(variable, pos):
-					trace("SongChartData uninitalized-variable parsing error (variable: " + variable + ", pos: " + pos + ")");
+					trace("IncorrectType(variable: " + variable + ", pos: " + pos + ")");
 				case UnknownVariable(variable, pos):
-					trace("SongChartData unknown-variable parsing error (variable: " + variable + ", pos: " + pos + ")");
+					trace("UnknownVariable(variable: " + variable + ", pos: " + pos + ")");
 				default:
 					trace("SongChartData unknown parsing error: " + e);
 			}

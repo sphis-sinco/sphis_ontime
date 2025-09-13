@@ -29,11 +29,11 @@ class SongMetadata
 			switch (e)
 			{
 				case IncorrectType(variable, expected, pos):
-					trace("SongMetadata incorrect-type parsing error (variable: " + variable + ", expected: " + expected + ", pos: " + pos + ")");
+					trace("IncorrectType(variable: " + variable + ", expected: " + expected + ", pos: " + pos + ")");
 				case UninitializedVariable(variable, pos):
-					trace("SongMetadata uninitalized-variable parsing error (variable: " + variable + ", pos: " + pos + ")");
+					trace("UninitializedVariable(variable: " + variable + ", pos: " + pos + ")");
 				case UnknownVariable(variable, pos):
-					trace("SongMetadata unknown-variable parsing error (variable: " + variable + ", pos: " + pos + ")");
+					trace("UnknownVariable(variable: " + variable + ", pos: " + pos + ")");
 				default:
 					trace("SongMetadata unknown parsing error: " + e);
 			}
