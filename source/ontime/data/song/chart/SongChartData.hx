@@ -1,14 +1,22 @@
 package ontime.data.song.chart;
 
+import json2object.JsonParser;
+
 class SongChartData
 {
 	@:optional
-	public var events:SongChartEventData;
-	public var chart:SongChartNoteData;
+	@:default([])
+	public var events:Array<SongChartEventData>;
+
+	@:default([])
+	public var chart:Array<SongChartNoteData>;
+
+	@:jignored
+	public var id:String;
 
 	public function new(songId:String):Void
 	{
-		var parser = new JsonParser<SongMetadata>();
+		var parser = new JsonParser<SongChartData>();
 		final jsonPath = Paths.getSongFile(songId, songId + "-metadata.json");
 		var json = parser.fromJson(Paths.getText(jsonPath), songId + "-metadata.json");
 
@@ -17,34 +25,29 @@ class SongChartData
 			switch (e)
 			{
 				case IncorrectType(variable, expected, pos):
-					trace("SongMetadata incorrect-type parsing error (variable: " + variable + ", expected: " + expected + ", pos: " + pos + ")");
+					trace("SongChartData incorrect-type parsing error (variable: " + variable + ", expected: " + expected + ", pos: " + pos + ")");
 				case UninitializedVariable(variable, pos):
-					trace("SongMetadata uninitalized-variable parsing error (variable: " + variable + ", pos: " + pos + ")");
+					trace("SongChartData uninitalized-variable parsing error (variable: " + variable + ", pos: " + pos + ")");
 				case UnknownVariable(variable, pos):
-					trace("SongMetadata unknown-variable parsing error (variable: " + variable + ", pos: " + pos + ")");
+					trace("SongChartData unknown-variable parsing error (variable: " + variable + ", pos: " + pos + ")");
 				default:
-					trace("SongMetadata unknown parsing error: " + e);
+					trace("SongChartData unknown parsing error: " + e);
 			}
 		}
 
 		if (json == null)
 		{
-			throw "Could not parse metadata for song ID: " + songId + " (path: " + jsonPath + ")";
+			throw "Could not parse chart for song ID: " + songId + " (path: " + jsonPath + ")";
 		}
 
 		this.id = songId;
 
-		this.name = json.name;
-		this.credits = json.credits;
-
-		this.gameSettings = json.gameSettings;
-		this.gameSettings.bpmChangeMap ??= SongMetadataConstants.GAME_SETTINGS_DEFAULT_BPM_CHANGE_MAP;
-		this.gameSettings.bpm ??= this.gameSettings.bpmChangeMap[0].bpm ?? SongMetadataConstants.GAME_SETTINGS_DEFAULT_BPM;
-		this.gameSettings.speed ??= SongMetadataConstants.GAME_SETTINGS_DEFAULT_SPEED;
+		this.events = json.events;
+		this.chart = json.chart;
 	}
 
 	public function toString():String
 	{
-		return "SongChartData(id: " + this.id + ", name: " + this.name + ", gameSettings: " + this.gameSettings + ")";
+		return "SongChartData(id: " + this.id + ", chart.length: " + this.chart.length + ", events.length" + this.events.length + ")";
 	}
 }
