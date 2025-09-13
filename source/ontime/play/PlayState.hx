@@ -3,12 +3,18 @@ package ontime.play;
 import flixel.FlxG;
 import flixel.math.FlxMath;
 import flixel.text.FlxText;
+import ontime.data.song.chart.SongChartData;
+import ontime.data.song.chart.SongChartEventData;
+import ontime.data.song.chart.SongChartNoteData;
 import ontime.data.song.metadata.SongMetadata;
 import ontime.music.Conductor;
 import ontime.music.MusicState;
 
 class PlayState extends MusicState
 {
+	public var SongMetadata:SongMetadata;
+	public var SongChartData:SongChartData;
+
 	public var SongStarted:Bool = false;
 	public var SongEnded:Bool = false;
 
@@ -19,14 +25,15 @@ class PlayState extends MusicState
 
 	override public function new(?songID:String)
 	{
-		var SONG_METADATA:SongMetadata;
-		SONG_METADATA = new SongMetadata(songID ?? "beatTest");
+		SongMetadata = new SongMetadata(songID ?? "beatTest");
+		SongChartData = new SongChartData(SongMetadata.id);
 
-		FlxG.watch.addQuick("SongMetadata", SONG_METADATA);
+		FlxG.watch.addQuick("SongMetadata", SongMetadata);
+		FlxG.watch.addQuick("SongChartData", SongChartData);
 
-		Conductor.mapBPMChanges(SONG_METADATA);
+		Conductor.mapBPMChanges(SongMetadata);
 
-		FlxG.sound.playMusic(Paths.getSongFile(SONG_METADATA.id, SONG_METADATA.id + ".wav"), 1.0, false);
+		FlxG.sound.playMusic(Paths.getSongFile(SongMetadata.id, SongMetadata.id + ".wav"), 1.0, false);
 		FlxG.sound.music.onComplete = endSong;
 		FlxG.sound.pause();
 
@@ -146,10 +153,30 @@ class PlayState extends MusicState
 	override public function stepHit():Void
 	{
 		super.stepHit();
+
+		checkNotes();
+		checkEvents();
 	}
 
 	override public function beatHit():Void
 	{
 		super.beatHit();
+
+		checkNotes();
+		checkEvents();
 	}
+
+	public function checkNotes()
+		for (note in this.SongChartData.chart)
+			if (curBeat == note.beat && curStep == note.step)
+				processNote(note);
+
+	public function checkEvents()
+		for (event in this.SongChartData.event)
+			if (curBeat == event.beat && curStep == event.step)
+				processEvent(event);
+
+	public function processNote(note:SongChartNoteData) {}
+
+	public function processEvent(note:SongChartEventData) {}
 }

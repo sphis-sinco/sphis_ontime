@@ -2,10 +2,10 @@ package ontime.data.song.chart;
 
 class SongChartNoteData
 {
-	var step:Int;
-	var beat:Int;
+	public var step:Int;
+	public var beat:Int;
 
-	var side:Int;
+	public var side:Int;
 
 	public function toString()
 	{
