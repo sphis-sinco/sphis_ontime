@@ -176,7 +176,13 @@ class PlayState extends MusicState
 			if (curBeat == event.beat && curStep == event.step)
 				processEvent(event);
 
-	public function processNote(note:SongChartNoteData) {}
+	public function processNote(note:SongChartNoteData)
+	{
+		trace("New Note: " + note);
+	}
 
-	public function processEvent(note:SongChartEventData) {}
+	public function processEvent(event:SongChartEventData)
+	{
+		trace("New Event: " + event);
+	}
 }
