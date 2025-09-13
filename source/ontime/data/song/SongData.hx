@@ -46,6 +46,8 @@ class SongData
 			throw "Could not parse metadata for song ID: " + songId + " (path: " + jsonPath + ")";
 		}
 
+		this.id = songId;
+
 		this.version = json.version;
 		this.version ??= SongDataConstants.SONG_DATA_VERSION;
 
