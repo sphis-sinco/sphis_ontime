@@ -12,6 +12,8 @@ class PlayState extends FlxState
 		super.create();
 
 		beatTest = new SongData('beatTest');
+
+		trace(beatTest);
 	}
 
 	override public function update(elapsed:Float)
