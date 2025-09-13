@@ -3,6 +3,7 @@ package ontime.play;
 import flixel.FlxG;
 import flixel.math.FlxMath;
 import flixel.text.FlxText;
+import flixel.util.FlxTimer;
 import ontime.data.song.SongData;
 import ontime.music.Conductor;
 import ontime.music.MusicState;
@@ -74,7 +75,10 @@ class PlayState extends MusicState
 
 	public function endSong():Void
 	{
-		SONG_ENDED = true;
+		FlxTimer.wait(0, () ->
+		{
+			SONG_ENDED = true;
+		});
 	}
 
 	override public function stepHit():Void
