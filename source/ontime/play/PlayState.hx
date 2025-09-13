@@ -169,12 +169,33 @@ class PlayState extends MusicState
 	public function checkNotes()
 		for (note in this.SongChartData.chart)
 			if (curBeat == note.beat && curStep == note.step)
+			{
 				processNote(note);
+			}
+			else
+			{
+				trace("Failed Note(beat: " + curBeat + ", step: " + curStep + "): " + "Note(beat: " + note.beat + ",step: " + note.step + ")");
+			}
 
 	public function checkEvents()
 		for (event in this.SongChartData.events)
 			if (curBeat == event.beat && curStep == event.step)
+			{
 				processEvent(event);
+			}
+			else
+			{
+				trace("Failed Event(beat: "
+					+ curBeat
+					+ ", step: "
+					+ curStep
+					+ "): "
+					+ "Event(beat: "
+					+ event.beat
+					+ ",step: "
+					+ event.step
+					+ ")");
+			}
 
 	public function processNote(note:SongChartNoteData)
 	{
