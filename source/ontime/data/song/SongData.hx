@@ -8,7 +8,7 @@ class SongData
 		If this field isn't found it'll
 		be default to the latest version.
 	**/
-	@:default(2)
+	@:default(SongDataConstants.VERSION)
 	public var version:Int;
 
 	/**
